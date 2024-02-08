@@ -1,12 +1,17 @@
-import { Controller, Get } from '@nestjs/common';
+import { Body, Controller, Get, Post } from '@nestjs/common';
 import { SurveyService } from './surveys.service';
 
-@Controller('surverys')
+@Controller('surveys')
 export class SurveyController {
   constructor(private surveyService: SurveyService) {}
 
   @Get()
-  question() {
-    return 'hello world';
+  getAllSurveys() {
+    return this.surveyService.getAllSurverys();
+  }
+
+  @Post('/create')
+  createSurvey(@Body('title') title: string) {
+    return this.surveyService.createSurvey(title);
   }
 }
