@@ -9,3 +9,30 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+model Survey {
+  id       String     @id @default(uuid())
+  title    String
+  Question Question[]
+
+  @@map("surveys")
+}
+
+model Question {
+  id           String       @id @default(uuid())
+  ques         String
+  questionType QuestionType
+  surveyId     String
+  survery      Survey       @relation(fields: [surveyId], references: [id])
+  answer       QuestionType
+  fileLink     String?
+
+  @@map("questions")
+}
+
+enum QuestionType {
+  TEXT
+  NUMBER
+  BOOLEAN
+  FILE
+}
