@@ -30,4 +30,38 @@ export class SurveyService {
       throw err;
     }
   }
+
+  async getSurveyAnswers(surveyId: string) {
+    try {
+      const surveyAnswers = await this.prisma.question.findMany({
+        where: {
+          surveyId,
+          OR: [
+            {
+              answer: {
+                not: null,
+              },
+            },
+            {
+              fileLink: {
+                not: null,
+              },
+            },
+          ],
+        },
+      });
+
+      const questionIdAndAnswers = surveyAnswers.map((question) => ({
+        question_id: question.id,
+        [question.questionType === 'FILE' ? 'file_link' : 'answer']:
+          question.questionType === 'FILE'
+            ? question.fileLink
+            : question.answer,
+      }));
+
+      return questionIdAndAnswers;
+    } catch (err: any) {
+      throw err;
+    }
+  }
 }

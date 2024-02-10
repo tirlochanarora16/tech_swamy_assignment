@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post } from '@nestjs/common';
 import { SurveyService } from './surveys.service';
 
 @Controller('surveys')
@@ -10,7 +10,12 @@ export class SurveyController {
     return this.surveyService.getAllSurverys();
   }
 
-  @Post('/create')
+  @Get(':surveyId')
+  getSurveyAnswers(@Param('surveyId') surveyId: string) {
+    return this.surveyService.getSurveyAnswers(surveyId);
+  }
+
+  @Post('create')
   createSurvey(@Body('title') title: string) {
     return this.surveyService.createSurvey(title);
   }
