@@ -4,7 +4,7 @@ import {
   PrismaClientValidationError,
 } from '@prisma/client/runtime/library';
 import { PrismaService } from 'src/prisma/prisma.service';
-import { CreateQuestionDto } from './dto';
+import { CreateQuestionDto, UpdateQuestionDto } from './dto';
 
 @Injectable()
 export class QuestionsService {
@@ -73,6 +73,29 @@ export class QuestionsService {
 
       return answerQues;
     } catch (err: any) {
+      throw err;
+    }
+  }
+
+  async updateQuestion(questionId: string, body: UpdateQuestionDto) {
+    try {
+      if (Object.keys(body).length === 0) {
+        throw new HttpException('Body cannot be empty', HttpStatus.BAD_REQUEST);
+      }
+
+      const updatedQuestion = await this.prisma.question.update({
+        where: { id: questionId },
+        data: { ...body, fileLink: null, answer: null },
+      });
+
+      return updatedQuestion;
+    } catch (err) {
+      if (err instanceof PrismaClientValidationError) {
+        throw new HttpException(
+          'Invalid type received for a field',
+          HttpStatus.BAD_REQUEST,
+        );
+      }
       throw err;
     }
   }
