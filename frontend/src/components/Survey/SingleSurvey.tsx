@@ -1,3 +1,4 @@
+import { useStoreContext } from "../../store/store";
 import styles from "./styles.module.css";
 
 interface IProps {
@@ -6,8 +7,17 @@ interface IProps {
 }
 
 const SingleSurvey: React.FC<IProps> = ({ id, title }) => {
+  const { setSelectedSurvey } = useStoreContext();
+
+  const onClickHandler = () => {
+    setSelectedSurvey({
+      id,
+      title,
+    });
+  };
+
   return (
-    <div className={styles.singleSurvey}>
+    <div className={styles.singleSurvey} onClick={onClickHandler}>
       <h2>{title}</h2>
     </div>
   );

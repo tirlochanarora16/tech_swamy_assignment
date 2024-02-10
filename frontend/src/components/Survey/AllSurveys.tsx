@@ -1,14 +1,14 @@
 import axios from "axios";
 import { useEffect } from "react";
 import { useStoreContext } from "../../store/store";
-import { AllSurveys as AllSurveysType } from "../../types/surveys";
+import { Survey } from "../../types/surveys";
 import Title from "../Title/Title";
 import { API_URL, apiPaths } from "../api/api";
 import SingleSurvey from "./SingleSurvey";
 import styles from "./styles.module.css";
 
 const AllSurveys = () => {
-  const { setSurveys, surveys } = useStoreContext();
+  const { setSurveys, surveys, selectedSurvey } = useStoreContext();
 
   const getSurveys = async () => {
     try {
@@ -18,7 +18,7 @@ const AllSurveys = () => {
         throw new Error("Something went wrong");
       }
 
-      const surveys = response.data as AllSurveysType[];
+      const surveys = response.data as Survey[];
 
       setSurveys(surveys);
     } catch (err: any) {
@@ -29,6 +29,8 @@ const AllSurveys = () => {
   useEffect(() => {
     getSurveys();
   }, []);
+
+  console.log(selectedSurvey);
 
   if (surveys.length === 0) {
     return (

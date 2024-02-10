@@ -1,9 +1,11 @@
 import { createContext, useContext, useState } from "react";
-import { AllSurveys } from "../types/surveys";
+import { Survey } from "../types/surveys";
 
 interface ContextType {
-  surveys: AllSurveys[];
-  setSurveys: React.Dispatch<React.SetStateAction<AllSurveys[]>>;
+  surveys: Survey[];
+  setSurveys: React.Dispatch<React.SetStateAction<Survey[]>>;
+  selectedSurvey: Survey;
+  setSelectedSurvey: React.Dispatch<React.SetStateAction<Survey>>;
 }
 
 interface IProps {
@@ -13,13 +15,21 @@ interface IProps {
 const StoreContext = createContext<ContextType>({
   surveys: [],
   setSurveys: () => {},
+  selectedSurvey: { id: "", title: "" },
+  setSelectedSurvey: () => {},
 });
 
 export const StoreProvider: React.FC<IProps> = ({ children }) => {
-  const [surveys, setSurveys] = useState<AllSurveys[]>([]);
+  const [surveys, setSurveys] = useState<Survey[]>([]);
+  const [selectedSurvey, setSelectedSurvey] = useState<Survey>({
+    id: "",
+    title: "",
+  });
 
   return (
-    <StoreContext.Provider value={{ surveys, setSurveys }}>
+    <StoreContext.Provider
+      value={{ surveys, selectedSurvey, setSurveys, setSelectedSurvey }}
+    >
       {children}
     </StoreContext.Provider>
   );

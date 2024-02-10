@@ -1,4 +1,4 @@
-export type AllSurveys = {
+export type Survey = {
   id: string;
   title: string;
 };
