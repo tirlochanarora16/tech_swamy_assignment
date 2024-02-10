@@ -1,0 +1,13 @@
+.questions {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+
+  height: 100%;
+
+  padding: 1rem;
+}
+
+.questions_container {
+  flex: 1;
+}

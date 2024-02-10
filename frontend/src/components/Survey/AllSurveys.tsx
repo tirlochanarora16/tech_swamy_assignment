@@ -6,6 +6,7 @@ import Title from "../Title/Title";
 import { API_URL, apiPaths } from "../api/api";
 import SingleSurvey from "./SingleSurvey";
 import styles from "./styles.module.css";
+import Button from "../Button/Button";
 
 const AllSurveys = () => {
   const { setSurveys, surveys, selectedSurvey } = useStoreContext();
@@ -30,8 +31,6 @@ const AllSurveys = () => {
     getSurveys();
   }, []);
 
-  console.log(selectedSurvey);
-
   if (surveys.length === 0) {
     return (
       <div className={styles.surveys}>
@@ -50,9 +49,7 @@ const AllSurveys = () => {
           );
         })}
       </div>
-      <button className={styles.survey_btn} type="button">
-        Create Survey
-      </button>
+      <Button onClickHandler={() => {}}>Add Survey</Button>
     </div>
   );
 };
