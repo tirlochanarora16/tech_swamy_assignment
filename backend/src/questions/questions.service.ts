@@ -75,12 +75,14 @@ export class QuestionsService {
         throw new HttpException('Invalid quesiton id', HttpStatus.BAD_REQUEST);
       }
 
+      const isTypeFile = question.questionType === 'FILE';
+
       const answerQues = await this.prisma.question.update({
         where: {
           id: questionId,
         },
         data: {
-          [question.questionType === 'FILE' ? 'fileLink' : 'answer']: answer,
+          [isTypeFile ? 'fileLink' : 'answer']: answer,
         },
       });
 

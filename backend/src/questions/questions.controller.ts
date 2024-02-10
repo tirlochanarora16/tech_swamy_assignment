@@ -41,8 +41,10 @@ export class QuestionsController {
     @Body('answer') answer: string,
     @UploadedFile() file: Express.Multer.File,
   ) {
-    console.log(file);
-    return this.questionsService.answerSurveyQuestion(questionId, answer);
+    return this.questionsService.answerSurveyQuestion(
+      questionId,
+      file ? file.originalname : answer,
+    );
   }
 
   @Patch(':questionId')
