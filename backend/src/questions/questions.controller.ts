@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, Patch, Post } from '@nestjs/common';
 import { QuestionsService } from './questions.service';
 import { CreateQuestionDto } from './dto';
 
@@ -22,5 +22,13 @@ export class QuestionsController {
     @Body() dto: CreateQuestionDto,
   ) {
     return this.questionsService.createSurveyQuestion(surveyId, dto);
+  }
+
+  @Patch('answer/:questionId')
+  answerQuestion(
+    @Param('questionId') questionId: string,
+    @Body('answer') answer: string,
+  ) {
+    return this.questionsService.answerSurveyQuestion(questionId, answer);
   }
 }

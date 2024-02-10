@@ -51,4 +51,27 @@ export class QuestionsService {
       throw err;
     }
   }
+
+  async answerSurveyQuestion(questionId: string, answer: string) {
+    try {
+      const question = await this.prisma.question.findUnique({
+        where: { id: questionId },
+      });
+
+      if (!question) {
+        throw new HttpException('Invalid quesiton id', HttpStatus.BAD_REQUEST);
+      }
+
+      const answerQues = await this.prisma.question.update({
+        where: {
+          id: questionId,
+        },
+        data: {
+          [question.questionType === 'FILE' ? 'fileLink' : 'answer']: answer,
+        },
+      });
+
+      return answerQues;
+    } catch (err: any) {}
+  }
 }
