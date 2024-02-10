@@ -15,7 +15,7 @@ CREATE TABLE "questions" (
     "ques" TEXT NOT NULL,
     "questionType" "QuestionType" NOT NULL,
     "surveyId" TEXT NOT NULL,
-    "answer" "QuestionType" NOT NULL,
+    "answer" TEXT,
     "fileLink" TEXT,
 
     CONSTRAINT "questions_pkey" PRIMARY KEY ("id")
