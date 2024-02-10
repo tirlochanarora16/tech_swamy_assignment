@@ -1,6 +1,16 @@
-import { Body, Controller, Get, Param, Patch, Post } from '@nestjs/common';
-import { QuestionsService } from './questions.service';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  Patch,
+  Post,
+  UploadedFile,
+  UseInterceptors,
+} from '@nestjs/common';
+import { FileInterceptor } from '@nestjs/platform-express';
 import { CreateQuestionDto, UpdateQuestionDto } from './dto';
+import { QuestionsService } from './questions.service';
 
 @Controller('questions')
 export class QuestionsController {
@@ -25,10 +35,13 @@ export class QuestionsController {
   }
 
   @Patch('answer/:questionId')
+  @UseInterceptors(FileInterceptor('file'))
   answerQuestion(
     @Param('questionId') questionId: string,
     @Body('answer') answer: string,
+    @UploadedFile() file: Express.Multer.File,
   ) {
+    console.log(file);
     return this.questionsService.answerSurveyQuestion(questionId, answer);
   }
 

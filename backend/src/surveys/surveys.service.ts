@@ -55,7 +55,7 @@ export class SurveyService {
         question_id: question.id,
         [question.questionType === 'FILE' ? 'file_link' : 'answer']:
           question.questionType === 'FILE'
-            ? question.fileLink
+            ? 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf'
             : question.answer,
       }));
 
