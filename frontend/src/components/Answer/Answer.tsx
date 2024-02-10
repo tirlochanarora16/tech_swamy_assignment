@@ -1,5 +1,15 @@
+import { useStoreContext } from "../../store/store";
+import Title from "../Title/Title";
+import styles from "./styles.module.css";
+
 const Answer = () => {
-  return <div>Answer</div>;
+  const {} = useStoreContext();
+
+  return (
+    <div className={styles.answer}>
+      <Title>Answer</Title>
+    </div>
+  );
 };
 
 export default Answer;

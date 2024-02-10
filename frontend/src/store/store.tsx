@@ -9,11 +9,22 @@ interface ContextType {
   setSelectedSurvey: React.Dispatch<React.SetStateAction<Survey>>;
   questions: Question[];
   setQuestions: React.Dispatch<React.SetStateAction<Question[]>>;
+  selectedQuestion: Question;
+  setSelectedQuestion: React.Dispatch<React.SetStateAction<Question>>;
 }
 
 interface IProps {
   children: React.ReactNode;
 }
+
+const questionDefault: Question = {
+  id: "",
+  ques: "",
+  questionType: "FILE",
+  surveyId: "",
+  answer: "",
+  fileLink: "",
+};
 
 const StoreContext = createContext<ContextType>({
   surveys: [],
@@ -22,6 +33,8 @@ const StoreContext = createContext<ContextType>({
   setSelectedSurvey: () => {},
   questions: [],
   setQuestions: () => {},
+  selectedQuestion: questionDefault,
+  setSelectedQuestion: () => {},
 });
 
 export const StoreProvider: React.FC<IProps> = ({ children }) => {
@@ -31,6 +44,8 @@ export const StoreProvider: React.FC<IProps> = ({ children }) => {
     title: "",
   });
   const [questions, setQuestions] = useState<Question[]>([]);
+  const [selectedQuestion, setSelectedQuestion] =
+    useState<Question>(questionDefault);
 
   return (
     <StoreContext.Provider
@@ -38,9 +53,11 @@ export const StoreProvider: React.FC<IProps> = ({ children }) => {
         surveys,
         selectedSurvey,
         questions,
+        selectedQuestion,
         setSurveys,
         setSelectedSurvey,
         setQuestions,
+        setSelectedQuestion,
       }}
     >
       {children}
