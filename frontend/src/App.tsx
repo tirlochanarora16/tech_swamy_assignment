@@ -1,5 +1,7 @@
+import Page from "./components/Page";
+
 function App() {
-  return <h1>Hello world</h1>;
+  return <Page />;
 }
 
 export default App;
