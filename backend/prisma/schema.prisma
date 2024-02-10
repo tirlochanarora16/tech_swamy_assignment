@@ -23,8 +23,8 @@ model Question {
   ques         String
   questionType QuestionType
   surveyId     String
-  survery      Survey       @relation(fields: [surveyId], references: [id])
-  answer       QuestionType
+  survey       Survey       @relation(fields: [surveyId], references: [id])
+  answer       String?
   fileLink     String?
 
   @@map("questions")
