@@ -1,4 +1,4 @@
-import { useStoreContext } from "../../store/store";
+import { questionDefault, useStoreContext } from "../../store/store";
 import styles from "./styles.module.css";
 
 interface IProps {
@@ -7,13 +7,14 @@ interface IProps {
 }
 
 const SingleSurvey: React.FC<IProps> = ({ id, title }) => {
-  const { setSelectedSurvey } = useStoreContext();
+  const { setSelectedSurvey, setSelectedQuestion } = useStoreContext();
 
   const onClickHandler = () => {
     setSelectedSurvey({
       id,
       title,
     });
+    setSelectedQuestion(questionDefault);
   };
 
   return (

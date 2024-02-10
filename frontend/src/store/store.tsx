@@ -17,7 +17,7 @@ interface IProps {
   children: React.ReactNode;
 }
 
-const questionDefault: Question = {
+export const questionDefault: Question = {
   id: "",
   ques: "",
   questionType: "FILE",

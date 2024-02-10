@@ -50,7 +50,9 @@ const AllQuestions = () => {
             <SingleQuestion key={question.id} question={question} />
           ))}
       </div>
-      <Button onClickHandler={() => {}}>Add Question</Button>
+      {selectedSurvey.id && (
+        <Button onClickHandler={() => {}}>Add Question</Button>
+      )}
     </div>
   );
 };

@@ -1,0 +1,49 @@
+.answer {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+
+  height: 100%;
+
+  padding: 1rem;
+}
+
+.answer_container {
+  flex: 1;
+}
+
+.answer_form {
+  display: flex;
+  flex-direction: column;
+
+  gap: 2rem;
+}
+
+.answer_btn {
+  border: none;
+
+  padding: 2rem;
+
+  border-radius: 1rem;
+  color: #fff;
+  cursor: pointer;
+
+  background-color: rgb(66, 108, 248);
+}
+
+.answer_input {
+  padding: 1rem;
+  border: none;
+  outline: 1px solid #f2f2f2;
+  border-radius: 1rem;
+}
+
+.answer_select {
+  padding: 1rem;
+
+  border: none;
+  outline: 1px solid #f2f2f2;
+
+  border-radius: 1rem;
+  cursor: pointer;
+}
