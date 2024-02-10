@@ -33,6 +33,19 @@ export class QuestionsService {
 
   async createSurveyQuestion(surveyId: string, body: CreateQuestionDto) {
     try {
+      const questionsCount = await this.prisma.question.count({
+        where: {
+          surveyId: surveyId,
+        },
+      });
+
+      if (questionsCount > 10) {
+        throw new HttpException(
+          'You have already created 10 questions inside this survey',
+          HttpStatus.BAD_REQUEST,
+        );
+      }
+
       const newQuestion = await this.prisma.question.create({
         data: {
           surveyId,
