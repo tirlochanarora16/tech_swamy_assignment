@@ -11,3 +11,15 @@
 .questions_container {
   flex: 1;
 }
+
+.singleQuestion {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem;
+  cursor: pointer;
+
+  border-radius: 1.5rem;
+
+  box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1);
+}

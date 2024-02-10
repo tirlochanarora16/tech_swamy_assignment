@@ -7,6 +7,7 @@ import styles from "./style.module.css";
 import axios from "axios";
 import { API_URL, apiPaths } from "../api/api";
 import { Question } from "../../types/questions";
+import SingleQuestion from "./SingleQuestion";
 
 const AllQuestions = () => {
   const { selectedSurvey, setQuestions, questions } = useStoreContext();
@@ -40,6 +41,14 @@ const AllQuestions = () => {
       <Title>Questions</Title>
       <div className={styles.questions_container}>
         {!selectedSurvey.id && <p>Select a survey to see it's questions</p>}
+        {selectedSurvey.id && questions.length === 0 && (
+          <p>No Questions yet added to this survey</p>
+        )}
+        {selectedSurvey.id &&
+          questions.length > 0 &&
+          questions.map((question) => (
+            <SingleQuestion key={question.id} question={question} />
+          ))}
       </div>
       <Button onClickHandler={() => {}}>Add Question</Button>
     </div>
