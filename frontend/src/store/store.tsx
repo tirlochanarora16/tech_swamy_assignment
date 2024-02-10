@@ -14,6 +14,7 @@ interface ContextType {
   selectedQuestion: Question;
   setSelectedQuestion: React.Dispatch<React.SetStateAction<Question>>;
   getSurveyQuestions: () => any;
+  getSurveys: () => any;
 }
 
 interface IProps {
@@ -39,6 +40,7 @@ const StoreContext = createContext<ContextType>({
   selectedQuestion: questionDefault,
   setSelectedQuestion: () => {},
   getSurveyQuestions: () => {},
+  getSurveys: () => {},
 });
 
 export const StoreProvider: React.FC<IProps> = ({ children }) => {
@@ -50,6 +52,22 @@ export const StoreProvider: React.FC<IProps> = ({ children }) => {
   const [questions, setQuestions] = useState<Question[]>([]);
   const [selectedQuestion, setSelectedQuestion] =
     useState<Question>(questionDefault);
+
+  const getSurveys = async () => {
+    try {
+      const response = await axios.get(`${API_URL}/${apiPaths.getSurveys()}`);
+
+      if (response.status !== 200) {
+        throw new Error("Something went wrong");
+      }
+
+      const surveys = response.data as Survey[];
+
+      setSurveys(surveys);
+    } catch (err: any) {
+      console.log(err);
+    }
+  };
 
   const getSurveyQuestions = async () => {
     try {
@@ -79,6 +97,7 @@ export const StoreProvider: React.FC<IProps> = ({ children }) => {
         setQuestions,
         setSelectedQuestion,
         getSurveyQuestions,
+        getSurveys,
       }}
     >
       {children}
