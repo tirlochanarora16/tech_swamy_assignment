@@ -72,6 +72,8 @@ export class QuestionsService {
       });
 
       return answerQues;
-    } catch (err: any) {}
+    } catch (err: any) {
+      throw err;
+    }
   }
 }
