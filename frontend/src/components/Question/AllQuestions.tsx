@@ -3,38 +3,17 @@ import { useStoreContext } from "../../store/store";
 import Button from "../Button/Button";
 import Title from "../Title/Title";
 
-import styles from "./style.module.css";
-import axios from "axios";
-import { API_URL, apiPaths } from "../api/api";
-import { Question } from "../../types/questions";
 import SingleQuestion from "./SingleQuestion";
+import styles from "./style.module.css";
 
 const AllQuestions = () => {
-  const { selectedSurvey, setQuestions, questions } = useStoreContext();
-
-  const getSurveyQuestions = async () => {
-    try {
-      const response = await axios.get(
-        `${API_URL}/${apiPaths.getSurveyQuestions(selectedSurvey.id)}`
-      );
-
-      if (response.status !== 200) {
-        throw new Error("Something went wrong!");
-      }
-
-      setQuestions(response.data as Question[]);
-    } catch (err: any) {
-      throw err;
-    }
-  };
+  const { selectedSurvey, questions, getSurveyQuestions } = useStoreContext();
 
   useEffect(() => {
     if (selectedSurvey.id) {
       getSurveyQuestions();
     }
   }, [selectedSurvey]);
-
-  console.log(questions);
 
   return (
     <div className={styles.questions}>

@@ -1,16 +1,32 @@
-import { useStoreContext } from "../../store/store";
+import axios from "axios";
 import { useEffect, useState } from "react";
+import { useStoreContext } from "../../store/store";
 import Title from "../Title/Title";
+import { API_URL, apiPaths } from "../api/api";
 import styles from "./styles.module.css";
 
 const Answer = () => {
-  const { selectedQuestion, selectedSurvey } = useStoreContext();
+  const { selectedQuestion, selectedSurvey, getSurveyQuestions } =
+    useStoreContext();
 
   const [answer, setAnswer] = useState<any>();
 
-  const formSubmitHandler = (e: React.FormEvent<HTMLFormElement>) => {
+  const formSubmitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
     try {
       e.preventDefault();
+
+      const response = await axios.patch(
+        `${API_URL}/${apiPaths.answerQuestion(selectedQuestion.id)}`,
+        {
+          answer,
+        }
+      );
+
+      if (response.status !== 200) {
+        throw new Error("Something went wrong");
+      }
+
+      getSurveyQuestions();
     } catch (err: any) {
       throw err;
     }
@@ -18,7 +34,7 @@ const Answer = () => {
 
   const inputOnChangeHandler = (e: any) => {
     try {
-      setAnswer(e.target.file);
+      setAnswer(e.target.value);
     } catch (err: any) {
       throw err;
     }
@@ -27,17 +43,15 @@ const Answer = () => {
   useEffect(() => {
     if (selectedQuestion.id && selectedQuestion.answer) {
       setAnswer(selectedQuestion.answer);
+    } else {
+      setAnswer(null);
     }
   }, [selectedQuestion]);
 
+  console.log(answer);
+
   const fileInput = (
-    <input
-      value={answer}
-      type="file"
-      required
-      onChange={inputOnChangeHandler}
-      accept=".pdf"
-    />
+    <input type="file" required onChange={inputOnChangeHandler} accept=".pdf" />
   );
 
   const booleanInput = (

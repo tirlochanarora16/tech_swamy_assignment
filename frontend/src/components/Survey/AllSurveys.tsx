@@ -2,11 +2,11 @@ import axios from "axios";
 import { useEffect } from "react";
 import { useStoreContext } from "../../store/store";
 import { Survey } from "../../types/surveys";
+import Button from "../Button/Button";
 import Title from "../Title/Title";
 import { API_URL, apiPaths } from "../api/api";
 import SingleSurvey from "./SingleSurvey";
 import styles from "./styles.module.css";
-import Button from "../Button/Button";
 
 const AllSurveys = () => {
   const { setSurveys, surveys, selectedSurvey } = useStoreContext();

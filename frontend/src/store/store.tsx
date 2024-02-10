@@ -1,6 +1,8 @@
+import axios from "axios";
 import { createContext, useContext, useState } from "react";
-import { Survey } from "../types/surveys";
+import { API_URL, apiPaths } from "../components/api/api";
 import { Question } from "../types/questions";
+import { Survey } from "../types/surveys";
 
 interface ContextType {
   surveys: Survey[];
@@ -11,6 +13,7 @@ interface ContextType {
   setQuestions: React.Dispatch<React.SetStateAction<Question[]>>;
   selectedQuestion: Question;
   setSelectedQuestion: React.Dispatch<React.SetStateAction<Question>>;
+  getSurveyQuestions: () => any;
 }
 
 interface IProps {
@@ -35,6 +38,7 @@ const StoreContext = createContext<ContextType>({
   setQuestions: () => {},
   selectedQuestion: questionDefault,
   setSelectedQuestion: () => {},
+  getSurveyQuestions: () => {},
 });
 
 export const StoreProvider: React.FC<IProps> = ({ children }) => {
@@ -47,6 +51,22 @@ export const StoreProvider: React.FC<IProps> = ({ children }) => {
   const [selectedQuestion, setSelectedQuestion] =
     useState<Question>(questionDefault);
 
+  const getSurveyQuestions = async () => {
+    try {
+      const response = await axios.get(
+        `${API_URL}/${apiPaths.getSurveyQuestions(selectedSurvey.id)}`
+      );
+
+      if (response.status !== 200) {
+        throw new Error("Something went wrong!");
+      }
+
+      setQuestions(response.data as Question[]);
+    } catch (err: any) {
+      throw err;
+    }
+  };
+
   return (
     <StoreContext.Provider
       value={{
@@ -58,6 +78,7 @@ export const StoreProvider: React.FC<IProps> = ({ children }) => {
         setSelectedSurvey,
         setQuestions,
         setSelectedQuestion,
+        getSurveyQuestions,
       }}
     >
       {children}
