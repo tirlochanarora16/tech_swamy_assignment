@@ -6,8 +6,12 @@ import { API_URL, apiPaths } from "../../api/api";
 import styles from "./styles.module.css";
 
 const Answer = () => {
-  const { selectedQuestion, selectedSurvey, getSurveyQuestions } =
-    useStoreContext();
+  const {
+    selectedQuestion,
+    selectedSurvey,
+    getSurveyQuestions,
+    setSelectedQuestion,
+  } = useStoreContext();
 
   const [answer, setAnswer] = useState<any>();
 
@@ -15,16 +19,33 @@ const Answer = () => {
     try {
       e.preventDefault();
 
-      const response = await axios.patch(
-        `${API_URL}/${apiPaths.answerQuestion(selectedQuestion.id)}`,
-        {
-          answer,
-        }
-      );
+      if (selectedQuestion.questionType === "FILE") {
+        const formData = new FormData();
+        formData.append("file", answer);
+        const response = await axios.patch(
+          `${API_URL}/${apiPaths.answerQuestion(selectedQuestion.id)}`,
+          formData
+        );
 
-      if (response.status !== 200) {
-        throw new Error("Something went wrong");
+        if (response.status !== 200) {
+          throw new Error("Something went wrong");
+        }
+      } else {
+        const response = await axios.patch(
+          `${API_URL}/${apiPaths.answerQuestion(selectedQuestion.id)}`,
+          {
+            answer,
+          }
+        );
+
+        if (response.status !== 200) {
+          throw new Error("Something went wrong");
+        }
       }
+
+      alert("Answer submitted!");
+
+      setSelectedQuestion(selectedQuestion);
 
       getSurveyQuestions();
     } catch (err: any) {
@@ -34,11 +55,17 @@ const Answer = () => {
 
   const inputOnChangeHandler = (e: any) => {
     try {
-      setAnswer(e.target.value);
+      setAnswer(
+        selectedQuestion.questionType === "FILE"
+          ? e.target.files[0]
+          : e.target.value
+      );
     } catch (err: any) {
       throw err;
     }
   };
+
+  console.log(answer);
 
   useEffect(() => {
     if (selectedQuestion.id && selectedQuestion.answer) {
