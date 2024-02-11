@@ -8,3 +8,13 @@ export type Question = {
   answer?: string;
   fileLink?: string;
 };
+
+export type QuestionInput = {
+  ques: string;
+  questionType: QuestionType;
+};
+
+export const defaultQuestionInput: QuestionInput = {
+  ques: "",
+  questionType: "TEXT",
+};

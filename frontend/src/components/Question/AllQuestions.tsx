@@ -1,13 +1,17 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useStoreContext } from "../../store/store";
 import Button from "../Button/Button";
 import Title from "../Title/Title";
 
+import Modal from "../Modal/Modal";
+import NewQuestion from "./NewQuestion";
 import SingleQuestion from "./SingleQuestion";
 import styles from "./style.module.css";
 
 const AllQuestions = () => {
   const { selectedSurvey, questions, getSurveyQuestions } = useStoreContext();
+
+  const [showModal, setShowModal] = useState<boolean>(false);
 
   useEffect(() => {
     if (selectedSurvey.id) {
@@ -30,8 +34,12 @@ const AllQuestions = () => {
           ))}
       </div>
       {selectedSurvey.id && (
-        <Button onClickHandler={() => {}}>Add Question</Button>
+        <Button onClickHandler={() => setShowModal(true)}>Add Question</Button>
       )}
+
+      <Modal open={showModal} onClose={() => setShowModal(false)}>
+        <NewQuestion setShowModal={setShowModal} />
+      </Modal>
     </div>
   );
 };

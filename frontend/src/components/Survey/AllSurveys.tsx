@@ -76,6 +76,7 @@ const AllSurveys = () => {
       <Modal open={showModal} onClose={() => setShowModal(false)}>
         <form onSubmit={formSubmitHandler} className={styles.survey_form}>
           <Input
+            id="title"
             type="text"
             placeholder="Enter Survey Title"
             value={newSurveyValue}

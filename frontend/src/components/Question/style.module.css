@@ -26,3 +26,19 @@
 
   box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1);
 }
+
+.question_form {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.question_type {
+  border: none;
+  outline: 1px solid #f2f2f2;
+
+  padding: 2rem;
+  border-radius: 1rem;
+
+  cursor: pointer;
+}
