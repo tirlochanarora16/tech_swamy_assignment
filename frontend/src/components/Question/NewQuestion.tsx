@@ -67,6 +67,7 @@ const NewQuestion: React.FC<IProps> = ({ setShowModal }) => {
         id="questionType"
         onChange={inputChangeHandler}
         className={styles.question_type}
+        required
       >
         {["TEXT", "NUMBER", "BOOLEAN", "FILE"].map((item, index) => (
           <option key={index} value={item}>
