@@ -1,0 +1,36 @@
+version: "3.8"
+
+services:
+  db:
+    image: postgres:15-alpine
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: tech_swamy
+    ports:
+      - 5433:5432
+    volumes:
+      - db-data:/var/lib/postgresql/data
+
+  backend:
+    build: ./backend
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db
+    environment:
+      DATABASE_URL: postgres://postgres:postgres@db:5432/tech_swamy
+
+  frontend:
+    build: ./frontend
+    depends_on:
+      - db
+      - backend
+    ports:
+      - "3001:3001"
+    volumes:
+      - ./frontend:/app
+
+volumes:
+  db-data:

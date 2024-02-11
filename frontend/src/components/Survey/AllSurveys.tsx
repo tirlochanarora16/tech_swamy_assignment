@@ -20,14 +20,6 @@ const AllSurveys = () => {
     getSurveys();
   }, []);
 
-  if (surveys.length === 0) {
-    return (
-      <div className={styles.surveys}>
-        <Title>No Surveys yet created</Title>
-      </div>
-    );
-  }
-
   const formSubmitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
     try {
       e.preventDefault();
