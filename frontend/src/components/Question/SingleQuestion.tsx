@@ -29,6 +29,11 @@ const SingleQuestion: React.FC<IProps> = ({ question }) => {
 
   const selectQuestionHandler = () => setSelectedQuestion(question);
 
+  const modalCloseHandler = () => {
+    setShowModal(false);
+    setSelectedQuestion(questionDefault);
+  };
+
   return (
     <div className={styles.singleQuestion}>
       <div onClick={selectQuestionHandler}>
@@ -37,7 +42,7 @@ const SingleQuestion: React.FC<IProps> = ({ question }) => {
       <div onClick={editQuestionHandler}>
         <CiEdit cursor={"pointer"} fontSize={20} />
       </div>
-      <Modal open={showModal} onClose={() => setShowModal(false)}>
+      <Modal open={showModal} onClose={modalCloseHandler}>
         <QuestionForm
           formInput={formInput}
           setFormInput={setFormInput}
