@@ -4,14 +4,18 @@ import Button from "../Button/Button";
 import Title from "../Title/Title";
 
 import Modal from "../Modal/Modal";
-import NewQuestion from "./NewQuestion";
+import QuestionForm from "./QuestionForm";
 import SingleQuestion from "./SingleQuestion";
 import styles from "./style.module.css";
+import { QuestionInput, defaultQuestionInput } from "../../types/questions";
 
 const AllQuestions = () => {
   const { selectedSurvey, questions, getSurveyQuestions } = useStoreContext();
 
   const [showModal, setShowModal] = useState<boolean>(false);
+
+  const [formInput, setFormInput] =
+    useState<QuestionInput>(defaultQuestionInput);
 
   useEffect(() => {
     if (selectedSurvey.id) {
@@ -38,7 +42,12 @@ const AllQuestions = () => {
       )}
 
       <Modal open={showModal} onClose={() => setShowModal(false)}>
-        <NewQuestion setShowModal={setShowModal} />
+        <QuestionForm
+          formInput={formInput}
+          setFormInput={setFormInput}
+          editQuestion={false}
+          setShowModal={setShowModal}
+        />
       </Modal>
     </div>
   );

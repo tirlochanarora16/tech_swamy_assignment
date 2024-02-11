@@ -44,11 +44,9 @@ const Answer = () => {
     if (selectedQuestion.id && selectedQuestion.answer) {
       setAnswer(selectedQuestion.answer);
     } else {
-      setAnswer(null);
+      setAnswer("");
     }
   }, [selectedQuestion]);
-
-  console.log(answer);
 
   const fileInput = (
     <input type="file" required onChange={inputOnChangeHandler} accept=".pdf" />

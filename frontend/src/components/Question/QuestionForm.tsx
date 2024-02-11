@@ -1,22 +1,31 @@
-import { useState } from "react";
+import axios from "axios";
+import { API_URL, apiPaths } from "../../api/api";
 import { questionDefault, useStoreContext } from "../../store/store";
 import { QuestionInput, defaultQuestionInput } from "../../types/questions";
 import Button from "../Button/Button";
 import Input from "../Input/Input";
 import styles from "./style.module.css";
-import axios from "axios";
-import { API_URL, apiPaths } from "../../api/api";
+import { useEffect } from "react";
 
 interface IProps {
   setShowModal: React.Dispatch<React.SetStateAction<boolean>>;
+  editQuestion: boolean;
+  formInput: QuestionInput;
+  setFormInput: React.Dispatch<React.SetStateAction<QuestionInput>>;
 }
 
-const NewQuestion: React.FC<IProps> = ({ setShowModal }) => {
-  const { selectedSurvey, setSelectedQuestion, getSurveyQuestions } =
-    useStoreContext();
-
-  const [formInput, setFormInput] =
-    useState<QuestionInput>(defaultQuestionInput);
+const QuestionForm: React.FC<IProps> = ({
+  setShowModal,
+  editQuestion,
+  formInput,
+  setFormInput,
+}) => {
+  const {
+    selectedSurvey,
+    setSelectedQuestion,
+    getSurveyQuestions,
+    selectedQuestion,
+  } = useStoreContext();
 
   const inputChangeHandler = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
@@ -32,14 +41,26 @@ const NewQuestion: React.FC<IProps> = ({ setShowModal }) => {
   const formSubmitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
     try {
       e.preventDefault();
-      const response = await axios.post(
-        `${API_URL}/${apiPaths.createSurveyQuestion(selectedSurvey.id)}`,
-        formInput
-      );
+      if (!editQuestion) {
+        const response = await axios.post(
+          `${API_URL}/${apiPaths.createSurveyQuestion(selectedSurvey.id)}`,
+          formInput
+        );
 
-      if (response.status !== 201) {
-        throw new Error("Something went wrong");
+        if (response.status !== 201) {
+          throw new Error("Something went wrong");
+        }
+      } else {
+        const response = await axios.patch(
+          `${API_URL}/${apiPaths.updateSurveyQuestion(selectedQuestion.id)}`,
+          formInput
+        );
+
+        if (response.status !== 200) {
+          throw new Error("Something went wrong");
+        }
       }
+
       resetState();
     } catch (err: any) {
       throw err;
@@ -52,6 +73,15 @@ const NewQuestion: React.FC<IProps> = ({ setShowModal }) => {
     setSelectedQuestion(questionDefault);
     getSurveyQuestions();
   };
+
+  useEffect(() => {
+    if (editQuestion) {
+      setFormInput({
+        ques: selectedQuestion.ques,
+        questionType: selectedQuestion.questionType,
+      });
+    }
+  }, [editQuestion]);
 
   return (
     <form className={styles.question_form} onSubmit={formSubmitHandler}>
@@ -76,10 +106,10 @@ const NewQuestion: React.FC<IProps> = ({ setShowModal }) => {
         ))}
       </select>
       <Button type="submit" onClickHandler={() => {}}>
-        Add new Question
+        {!editQuestion ? "Add new" : "Update"} Question
       </Button>
     </form>
   );
 };
 
-export default NewQuestion;
+export default QuestionForm;
