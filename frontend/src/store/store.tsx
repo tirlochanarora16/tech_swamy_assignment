@@ -1,6 +1,6 @@
 import axios from "axios";
 import { createContext, useContext, useState } from "react";
-import { API_URL, apiPaths } from "../components/api/api";
+import { API_URL, apiPaths } from "../api/api";
 import { Question } from "../types/questions";
 import { Survey } from "../types/surveys";
 

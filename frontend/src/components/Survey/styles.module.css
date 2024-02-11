@@ -28,6 +28,8 @@
   border-radius: 1rem;
 
   box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1);
+
+  border: 1px solid transparent;
 }
 
 .singleSurvey:hover {
@@ -44,4 +46,10 @@
   cursor: pointer;
 
   background-color: rgb(57, 57, 209);
+}
+
+.survey_form {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
 }

@@ -7,7 +7,8 @@ interface IProps {
 }
 
 const SingleSurvey: React.FC<IProps> = ({ id, title }) => {
-  const { setSelectedSurvey, setSelectedQuestion } = useStoreContext();
+  const { setSelectedSurvey, setSelectedQuestion, selectedSurvey } =
+    useStoreContext();
 
   const onClickHandler = () => {
     setSelectedSurvey({
@@ -18,7 +19,11 @@ const SingleSurvey: React.FC<IProps> = ({ id, title }) => {
   };
 
   return (
-    <div className={styles.singleSurvey} onClick={onClickHandler}>
+    <div
+      className={styles.singleSurvey}
+      onClick={onClickHandler}
+      style={selectedSurvey.id === id ? { border: "1px solid black" } : {}}
+    >
       <h2>{title}</h2>
     </div>
   );

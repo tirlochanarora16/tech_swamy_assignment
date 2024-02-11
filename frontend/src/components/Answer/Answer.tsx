@@ -2,7 +2,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { useStoreContext } from "../../store/store";
 import Title from "../Title/Title";
-import { API_URL, apiPaths } from "../api/api";
+import { API_URL, apiPaths } from "../../api/api";
 import styles from "./styles.module.css";
 
 const Answer = () => {
